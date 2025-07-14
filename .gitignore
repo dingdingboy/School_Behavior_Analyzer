@@ -1,0 +1,83 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# temporary files
+*.tmp
+*.temp
+temp/
+temp_src/
+__pycache__/
+
+
+# Model files
+models/
+*.bin
+*.xml
+*.json
+*.cl_cache
+
+# Media files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.avi
+*.mov
+
+# Cache directories
+.cache/
+model_cache/
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local development settings
+.env
+*.log
+
+# Compiled files
+build/
+dist/
+*.egg-info/
+*.egg
+*.dist-info/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.lib
+*.out
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.rar
+*.7z
+*.iso
+*.img
+*.vhd
+*.pyc 
+*.pyo
+*.pyd
+*.pydc
+*.pydo
+*.pydw
+*.pydx
+*.pydz
