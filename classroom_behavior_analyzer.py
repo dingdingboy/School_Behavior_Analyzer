@@ -307,7 +307,7 @@ class VideoWindow:
 
         # Create file selection frame
         self.file_frame = ttk.Frame(self.control_frame)
-        self.file_frame.pack(side=tk.LEFT, padx=5)
+        self.file_frame.pack(pady=10, padx=5, fill=tk.X)
         self.file_frame.pack_forget()  # Initially hidden
 
         # Add file selection button
@@ -336,20 +336,23 @@ class VideoWindow:
         self.save_crops_var = tk.BooleanVar(value=False)
         self.save_crops_cb = ttk.Checkbutton(
             self.control_frame,
-            text="Save person crops as images",
+            text="Save person crops to files",
             variable=self.save_crops_var
         )
         self.save_crops_cb.pack(side=tk.LEFT, padx=5)
 
+        # Create control frame at bottom
+        self.button_frame = ttk.Frame(self.main_frame)
+        self.button_frame.grid(row=2, column=0, sticky="ew", pady=5)
         # Create buttons
-        self.start_button = ttk.Button(self.control_frame, text="Start", command=self.start_tracking)
+        self.start_button = ttk.Button(self.button_frame, text="Start", command=self.start_tracking)
         self.start_button.pack(side=tk.LEFT, padx=5)
         # Add Analyze button
-        self.analyze_button = ttk.Button(self.control_frame, text="Analyze", command=self.start_analysis)
+        self.analyze_button = ttk.Button(self.button_frame, text="Analyze", command=self.start_analysis)
         self.analyze_button.pack(side=tk.LEFT, padx=5)
         self.analyze_button.config(state='disabled')
 
-        self.stop_button = ttk.Button(self.control_frame, text="Stop", command=self.stop_tracking)
+        self.stop_button = ttk.Button(self.button_frame, text="Stop", command=self.stop_tracking)
         self.stop_button.pack(side=tk.LEFT, padx=5)
         self.stop_button.config(state='disabled')
         
@@ -357,6 +360,7 @@ class VideoWindow:
         self.cap = None
         self.tracker = None
         self.is_tracking = False
+        self.video_reader = None
         
         # Initialize FPS and profiling variables
         self.fps_times = deque(maxlen=30)  # Store last 30 frame times
@@ -378,12 +382,11 @@ class VideoWindow:
 
         # Create text widget for analysis results
         self.analysis_text = tk.Text(self.analysis_frame, width=40, height=30)
-        self.analysis_text.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-
         # Add scrollbar
         analysis_scrollbar = ttk.Scrollbar(self.analysis_frame, orient="vertical", command=self.analysis_text.yview)
-        analysis_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.analysis_text.configure(yscrollcommand=analysis_scrollbar.set)
+        analysis_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.analysis_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
 
     def get_available_cameras(self) -> dict:
         """Get all available cameras"""
@@ -409,10 +412,11 @@ class VideoWindow:
         return available_cameras
     
     def on_source_change(self):
-        """Handle video source change"""
+        """Handle video source change: show/hide camera or file frame."""
         if self.source_var.get() == "camera":
             self.file_frame.pack_forget()
             self.camera_frame.pack(side=tk.LEFT, padx=5)
+        elif self.source_var.get() == "file":
             self.camera_frame.pack_forget()
             self.file_frame.pack(side=tk.LEFT, padx=5)
 
